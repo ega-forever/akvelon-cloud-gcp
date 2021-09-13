@@ -1,0 +1,21 @@
+{
+  "name": "firestore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^4.15.1",
+    "axios": "^0.21.3",
+    "dotenv": "^10.0.0",
+    "web3": "^1.5.2"
+  }
+}
