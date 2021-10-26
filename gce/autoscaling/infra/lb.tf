@@ -24,7 +24,7 @@ resource "google_compute_backend_service" "backend_service_app" {
 
   backend {
     group = google_compute_instance_group_manager.igm_app.instance_group
-    balancing_mode = "RATE"
+    balancing_mode = "UTILIZATION"
     max_rate = 10
   }
 
