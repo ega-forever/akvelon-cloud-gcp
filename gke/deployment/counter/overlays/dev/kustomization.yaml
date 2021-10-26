@@ -1,0 +1,12 @@
+bases:
+  - ../../base
+resources:
+  - service.yaml
+
+images:
+  - name: gcr.io/private-260418/counter:latest:latest
+    newName: gcr.io/private-260418/counter-dev
+    newTag: latest
+
+patchesStrategicMerge:
+  - deployment.yaml

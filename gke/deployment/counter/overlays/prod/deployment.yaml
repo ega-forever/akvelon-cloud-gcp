@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-services-counter
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: backend-services-counter
+        - name: cloudsql-proxy
+          command: ["/cloud_sql_proxy",
+                    "-instances=private-260418:europe-west1:prod-counter1-db=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]

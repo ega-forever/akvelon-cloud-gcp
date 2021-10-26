@@ -25,5 +25,5 @@ variable "bigtable_cluster_name" {
 
 variable "credentials_path" {
   type = string
-  default = "../creds/private-260418-83fae3afc6d7.json"
+  default = "../creds/private-token.json"
 }

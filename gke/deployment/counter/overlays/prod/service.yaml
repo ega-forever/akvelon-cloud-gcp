@@ -1,0 +1,39 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-services-counter-service
+  labels:
+    app: backend-services-counter
+    tier: node
+spec:
+  type: NodePort
+  ports:
+    - name: main-port
+      port: 80
+      targetPort: 8080
+  selector:
+    app: backend-services-counter
+    tier: node
+  sessionAffinity: None
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-services-counter-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: testsite1632122049153-com
+    networking.gke.io/managed-certificates: testsite1632122049153-com
+spec:
+  defaultBackend:
+    service:
+      name: backend-services-counter-service
+      port:
+        number: 80
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: testsite1632122049153-com
+spec:
+  domains:
+    - testsite1632122049153.com

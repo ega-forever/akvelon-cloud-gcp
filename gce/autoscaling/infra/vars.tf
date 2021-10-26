@@ -15,22 +15,17 @@ variable "zone" {
 
 variable "service_account_name" {
   type = string
-  default = "service-account-nat-example"
+  default = "service-account-example"
 }
 
 variable "vpc_name" {
   type = string
-  default = "vpc-nat"
+  default = "vpc-gcs"
 }
 
-variable "instance_public_name" {
+variable "instance_app_name" {
   type = string
-  default = "instance-public"
-}
-
-variable "instance_private_name" {
-  type = string
-  default = "instance-private"
+  default = "instance-app"
 }
 
 variable "vpc_subnet_cidr" {
@@ -41,5 +36,5 @@ variable "vpc_subnet_cidr" {
 
 variable "credentials_path" {
   type = string
-  default = "../creds/private-token.json"
+  default = "../../../creds/private-token.json"
 }

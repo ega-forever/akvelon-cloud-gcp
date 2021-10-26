@@ -1,0 +1,1 @@
+docker build -t gcr.io/private-260418/counter:latest .
