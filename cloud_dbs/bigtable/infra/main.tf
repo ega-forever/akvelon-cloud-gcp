@@ -6,4 +6,5 @@ resource "google_bigtable_instance" "production-instance" {
     storage_type = "SSD"
     zone = var.zone
   }
+  deletion_protection = false
 }

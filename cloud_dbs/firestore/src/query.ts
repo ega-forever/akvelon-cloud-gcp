@@ -1,6 +1,5 @@
 import { Firestore } from '@google-cloud/firestore';
 import config from './config';
-import Web3 from 'web3';
 
 const init = async () => {
   const firestore = new Firestore({
@@ -18,7 +17,7 @@ const init = async () => {
     .limit(1)
     .get();
 
-  console.log(lastSavedBlockQueryOffset.docs[0].get('number'), lastSavedBlockQueryOffset);
+  console.log(lastSavedBlockQueryOffset.docs[0].get('number'));
 }
 
 module.exports = init();

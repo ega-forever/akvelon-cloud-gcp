@@ -34,15 +34,10 @@ const init = async () => {
 
 
   const lastSavedBlockQuery = await blockTable.getRows({
-    limit: 2
+    limit: 1
   });
 
-  console.log(lastSavedBlockQuery)
-
-
-  // const lastSavedBlock = lastSavedBlockQuery.docs.length ? lastSavedBlockQuery.docs[0].get('number') : 0;
-  const lastSavedBlock = 0;
-
+  const lastSavedBlock = lastSavedBlockQuery[0].length ? lastSavedBlockQuery[0][0].data.numberhash.number[0].value : 0;
 
   for (let currentBlockNumber = lastSavedBlock + 1; currentBlockNumber++; lastBlockNumber) {
 

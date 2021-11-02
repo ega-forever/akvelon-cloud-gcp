@@ -8,22 +8,23 @@ const init = async () => {
 
   const instance = bigtable.instance(config.bigtableInstanceId as string);
   const blockTable = instance.table('block');
-  const txTable = instance.table('tx');
 
   const [lastSavedBlockQuery] = await blockTable.getRows({
     limit: 2
   });
 
-  console.log(lastSavedBlockQuery[0].id, lastSavedBlockQuery[0].data.numberhash.number)
-  console.log(lastSavedBlockQuery[1].id, lastSavedBlockQuery[1].data.numberhash.number)
+  console.log('---------------------before update--------------')
+  console.log(lastSavedBlockQuery[0].data.numberhash);
 
-  lastSavedBlockQuery[0].data.numberhash.number[0].value
+  console.log(lastSavedBlockQuery[0].id, lastSavedBlockQuery[0].data.numberhash.number);
+  console.log(lastSavedBlockQuery[1].id, lastSavedBlockQuery[1].data.numberhash.number);
+  console.log('---------------------after update--------------')
 
   await blockTable.insert({
     key: lastSavedBlockQuery[0].id,
     data: {
       numberhash: {
-        number: 9999
+        number: lastSavedBlockQuery[0].data.numberhash.number[0].value
       }
     }
   });

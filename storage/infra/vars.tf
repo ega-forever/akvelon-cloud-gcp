@@ -10,10 +10,10 @@ variable "region" {
 
 variable "credentials_path" {
   type = string
-  default = "../creds/private-token.json"
+  default = "../../creds/private-token.json"
 }
 
 variable "bucket_name" {
   type = string
-  default = "website-bucket-1632067139786"
+  default = "website-bucket-1632067139789"
 }
