@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-services-counter
+  name: backend-services-counter-rest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-services-counter
+      app: backend-services-counter-rest
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -15,11 +15,11 @@ spec:
   template:
     metadata:
       labels:
-        app: backend-services-counter
+        app: backend-services-counter-rest
         tier: node
     spec:
       containers:
-        - name: backend-services-counter
+        - name: backend-services-counter-rest
           image: gcr.io/private-260418/counter:latest
           env:
             - name: DEPLOY_TIME
@@ -50,12 +50,20 @@ spec:
               value: "8080"
             - name: LOG_LEVEL
               value: "30"
+            - name: GOOGLE_PUBSUB_CREDENTIALS
+              value: /var/secrets/google/pubsub/credentials.json
+            - name: GOOGLE_PUBSUB_PROJECT_ID
+              value: 'private-260418'
           securityContext:
             runAsUser: 0
             allowPrivilegeEscalation: false
+          command: [ "node" ]
+          args: [ "build/src/rest/index.js" ]
           ports:
             - containerPort: 8080
-          args: []
+          volumeMounts:
+            - name: pubsub-credentials
+              mountPath: /var/secrets/google/pubsub
 
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.14
@@ -72,5 +80,92 @@ spec:
         - name: proxy-credentials-db
           secret:
             secretName: proxy-credentials-db
+        - name: pubsub-credentials
+          secret:
+            secretName: pubsub-credentials
+
+    # [END volumes] ,
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-services-counter-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-services-counter-worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: backend-services-counter-worker
+        tier: node
+    spec:
+      containers:
+        - name: backend-services-counter-worker
+          image: gcr.io/private-260418/counter:latest
+          env:
+            - name: DEPLOY_TIME
+              value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: backend-credentials-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-credentials-db
+                  key: password
+            - name: DB_DB
+              value: "counter"
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: backend-credentials-db
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: backend-credentials-db
+                  key: db_port
+            - name: LOG_LEVEL
+              value: "30"
+            - name: GOOGLE_PUBSUB_CREDENTIALS
+              value: /var/secrets/google/pubsub/credentials.json
+            - name: GOOGLE_PUBSUB_PROJECT_ID
+              value: 'private-260418'
+          securityContext:
+            runAsUser: 0
+            allowPrivilegeEscalation: false
+          command: [ "node" ]
+          args: [ "build/src/worker/index.js" ]
+          volumeMounts:
+            - name: pubsub-credentials
+              mountPath: /var/secrets/google/pubsub
+
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          # [START cloudsql_security_context]
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false
+          # [END cloudsql_security_context]
+          volumeMounts:
+            - name: proxy-credentials-db
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: proxy-credentials-db
+          secret:
+            secretName: proxy-credentials-db
+        - name: pubsub-credentials
+          secret:
+            secretName: pubsub-credentials
 
     # [END volumes] ,

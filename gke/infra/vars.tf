@@ -8,14 +8,24 @@ variable "region" {
   default = "europe-west1"
 }
 
-variable "service_account_name" {
+variable "service_account_db_name" {
   type = string
-  default = "service-account-example"
+  default = "service-account-db"
+}
+
+variable "service_account_cluster_name" {
+  type = string
+  default = "service-account-cluster"
+}
+
+variable "service_account_pubsub_name" {
+  type = string
+  default = "service-account-pubsub"
 }
 
 variable "vpc_name" {
   type = string
-  default = "vpc-gke"
+  default = "vpc-gke-increment"
 }
 
 variable "gke_dev_cluster_name" {
@@ -48,7 +58,22 @@ variable "website_name" {
   default = "testsite1632122049153.com"
 }
 
-variable "credentials_path" {
+variable "pubsub_dev_topic" {
   type = string
-  default = "../../creds/private-token.json"
+  default = "dev_increment"
+}
+
+variable "pubsub_dev_subscription" {
+  type = string
+  default = "dev_increment_subscription"
+}
+
+variable "pubsub_prod_topic" {
+  type = string
+  default = "prod_increment"
+}
+
+variable "pubsub_prod_subscription" {
+  type = string
+  default = "prod_increment_subscription"
 }

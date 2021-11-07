@@ -1,12 +1,11 @@
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-services-counter-service
+  name: backend-services-counter-rest-service
 spec:
   type: LoadBalancer
   ports:
     - port: 80
       targetPort: 8080
   selector:
-    app: backend-services-counter
+    app: backend-services-counter-rest

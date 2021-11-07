@@ -16,4 +16,4 @@ COPY --from=installer /usr/src/app/build build
 RUN cd build && npm install --production
 
 ENTRYPOINT ["node"]
-CMD ["build/src/index.js"]
+CMD ["build/src/rest/index.js"]

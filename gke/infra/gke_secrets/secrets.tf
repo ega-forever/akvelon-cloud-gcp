@@ -20,3 +20,13 @@ resource "kubernetes_secret" "db_proxy_credentials" {
     "credentials.json" = base64decode(var.service_account_db_private_key)
   }
 }
+
+resource "kubernetes_secret" "pubsub_credentials" {
+  metadata {
+    name = "pubsub-credentials"
+  }
+  type = "Opaque"
+  data = {
+    "credentials.json" = base64decode(var.service_account_pubsub_private_key)
+  }
+}

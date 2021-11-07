@@ -3,7 +3,7 @@ module cluster_dev {
   vpc_id = google_compute_network.vpc_network.id
   vpc_subnet_id = google_compute_subnetwork.vpc_network_eu_west1_subnet.id
   region = var.region
-  service_account_email = google_service_account.account.email
+  service_account_email = google_service_account.account_cluster.email
   gke_cluster_name = var.gke_dev_cluster_name
 }
 
@@ -23,7 +23,14 @@ module gke_secrets_dev {
   cluster_ca_certificate = module.cluster_dev.cluster_ca_certificate
   db_username = module.db_dev.db_user_name
   db_password = module.db_dev.db_user_password
-  service_account_db_private_key = google_service_account_key.account_service_key.private_key
+  service_account_db_private_key = google_service_account_key.account_db_service_key.private_key
+  service_account_pubsub_private_key = google_service_account_key.account_pubsub_service_key.private_key
+}
+
+module pubsub_dev {
+  source = "./pubsub"
+  pubsub_topic = var.pubsub_dev_topic
+  pubsub_subscription = var.pubsub_dev_subscription
 }
 
 module cluster_prod {
@@ -31,7 +38,7 @@ module cluster_prod {
   vpc_id = google_compute_network.vpc_network.id
   vpc_subnet_id = google_compute_subnetwork.vpc_network_eu_west1_subnet.id
   region = var.region
-  service_account_email = google_service_account.account.email
+  service_account_email = google_service_account.account_cluster.email
   gke_cluster_name = var.gke_prod_cluster_name
 }
 
@@ -52,5 +59,12 @@ module gke_secrets_prod {
   cluster_ca_certificate = module.cluster_prod.cluster_ca_certificate
   db_username = module.db_prod.db_user_name
   db_password = module.db_prod.db_user_password
-  service_account_db_private_key = google_service_account_key.account_service_key.private_key
+  service_account_db_private_key = google_service_account_key.account_db_service_key.private_key
+  service_account_pubsub_private_key = google_service_account_key.account_pubsub_service_key.private_key
+}
+
+module pubsub_prod {
+  source = "./pubsub"
+  pubsub_topic = var.pubsub_prod_topic
+  pubsub_subscription = var.pubsub_prod_subscription
 }

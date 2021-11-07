@@ -21,3 +21,7 @@ variable "db_password" {
 variable "service_account_db_private_key" {
   type = string
 }
+
+variable "service_account_pubsub_private_key" {
+  type = string
+}

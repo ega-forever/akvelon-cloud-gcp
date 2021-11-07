@@ -6,17 +6,18 @@ import * as cors from 'express-cors';
 import 'reflect-metadata';
 import { Container } from 'typedi';
 import * as TypeORM from 'typeorm';
-import * as projectConfig from '../package.json';
-import config from './config';
-import { DEFAULT } from './constants/connections';
-import { DI } from './constants/DI';
+import * as projectConfig from '../../package.json';
+import config from '../shared/config';
+import { DEFAULT } from '../shared/constants/connections';
+import { DI } from '../shared/constants/DI';
 import IContext from './interfaces/IContext';
 import logMiddleware from './middleware/logger';
-import { entities } from './models';
+import { entities } from '../shared/models';
 import { createSchema } from './resolvers/gql';
+import { PubSub } from '@google-cloud/pubsub';
 import http = require('http');
 
-const logger = bunyan.createLogger({ name: 'core.rest' });
+const logger = bunyan.createLogger({ name: 'increment.rest' });
 
 TypeORM.useContainer(Container);
 
@@ -45,6 +46,13 @@ const bootstrap = async () => {
   const schema: any = await createSchema();
 
   Container.set({ id: DI.logger, factory: () => logger });
+
+  const pubsub = new PubSub({
+    projectId: config.googlePubSub.projectId,
+    keyFilename: config.googlePubSub.credentials
+  });
+
+  Container.set({ id: DI.services.google.pubsub, factory: () => pubsub });
 
   const server = new ApolloServer({
     schema,
