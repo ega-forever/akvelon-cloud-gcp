@@ -6,6 +6,6 @@ To apply
 6) add GKE prod context and under prod context run ```kubectl apply -k overlays/prod``` 
 
 To destroy
-1) destroy all resources under GKE
+1) destroy all resources under GKE ```kubectl delete -k overlays/{environment}```
 2) remove from state dns zone: ```terraform state rm google_dns_managed_zone.website```
 3) run ```terraform destroy```
