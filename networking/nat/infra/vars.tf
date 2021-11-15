@@ -37,9 +37,3 @@ variable "vpc_subnet_cidr" {
   type = string
   default = "10.0.0.0/24"
 }
-
-
-variable "credentials_path" {
-  type = string
-  default = "../creds/private-token.json"
-}

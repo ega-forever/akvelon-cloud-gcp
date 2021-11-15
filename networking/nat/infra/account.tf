@@ -3,12 +3,14 @@ resource "google_service_account" "account_nat" {
   display_name = var.service_account_name
 }
 
-data "google_iam_policy" "account_policy" {
-  binding {
-    role = "roles/compute.Viewer"
+resource "google_project_iam_binding" "account_nat_iam_binding" {
+  for_each = toset([
+    "roles/compute.admin",
+    "roles/iam.serviceAccountUser"
+  ])
+  role = each.value
 
-    members = [
-      google_service_account.account_nat.id,
-    ]
-  }
+  members = [
+    "serviceAccount:${google_service_account.account_nat.email}"
+  ]
 }
