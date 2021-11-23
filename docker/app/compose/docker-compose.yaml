@@ -13,6 +13,13 @@ services:
     networks:
       - counter
 
+  pubusb:
+    image: gcr.io/private-260418/pubsub.mocks.common-dev:1.0.0
+    ports:
+      - 8085:8085
+    networks:
+      - counter
+
 
 networks:
   counter:

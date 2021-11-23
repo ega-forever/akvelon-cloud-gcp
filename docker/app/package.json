@@ -4,7 +4,8 @@
    "description": "counter service",
    "main": "index.ts",
    "scripts": {
-      "start": "ts-node ./src/index.ts",
+      "start:worker": "ts-node ./src/worker/index.ts",
+      "start:rest": "ts-node ./src/rest/index.ts",
       "build": "tsc",
       "lint": "tslint --fix src/**/*.ts"
    },
@@ -12,6 +13,7 @@
    "license": "ISC",
    "bugs": {},
    "dependencies": {
+      "@google-cloud/pubsub": "^2.18.1",
       "apollo-server-express": "2.9.1",
       "body-parser": "1.18.3",
       "bunyan": "1.8.12",

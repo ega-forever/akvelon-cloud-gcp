@@ -33,12 +33,6 @@ variable "vpc_subnet_cidr" {
   default = "10.0.0.0/24"
 }
 
-
-variable "credentials_path" {
-  type = string
-  default = "../../../creds/private-token.json"
-}
-
 variable "notification_email" {
   type = string
   default = "zyev.egor@gmail.com"

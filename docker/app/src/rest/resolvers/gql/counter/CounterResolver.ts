@@ -1,7 +1,7 @@
 import { Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Counter } from '../../../models/counter/Counter';
+import { Counter } from '../../../../shared/models/counter/Counter';
 
 @Resolver()
 export default class CounterResolver {

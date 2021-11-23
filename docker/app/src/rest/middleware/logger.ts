@@ -1,5 +1,5 @@
 import * as bunyan from 'bunyan';
-import config from '../config';
+import config from '../../shared/config';
 const logger = bunyan.createLogger({ name: 'core.rest.middleware', level: config.logLevel });
 
 export default (req, res, next) => {

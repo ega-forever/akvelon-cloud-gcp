@@ -1,0 +1,16 @@
+{
+  "name": "pubsub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build_image": "docker build -t gcr.io/private-260418/pubsub.mocks.common-dev:1.0.0 -t gcr.io/private-260418/pubsub.mocks.common-dev:latest ",
+    "push_image": "docker push gcr.io/private-260418/pubsub.mocks.common-dev:1.0.0 && docker push gcr.io/private-260418/pubsub.mocks.common-dev:latest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
