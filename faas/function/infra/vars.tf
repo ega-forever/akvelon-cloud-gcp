@@ -15,7 +15,7 @@ variable "service_account_name" {
 
 variable "vpc_name" {
   type = string
-  default = "vpc-gke"
+  default = "vpc-function"
 }
 
 variable "vpc_subnet_cidr" {
@@ -71,9 +71,4 @@ variable "func_call_get_method" {
 variable "func_call_increment_method" {
   type = string
   default = "increment"
-}
-
-variable "credentials_path" {
-  type = string
-  default = "../../../creds/private-token.json"
 }

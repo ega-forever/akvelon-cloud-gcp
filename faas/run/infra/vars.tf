@@ -10,17 +10,18 @@ variable "region" {
 
 variable "service_account_name" {
   type = string
-  default = "service-account-example"
+  default = "service-account-run"
+}
+
+# this is default network's VPC. Custom networks can't be deleted as there is a bug with cloud run
+variable "vpc_id" {
+  type = string
+  default = "projects/private-260418/global/networks/default"
 }
 
 variable "vpc_name" {
   type = string
-  default = "vpc-gke"
-}
-
-variable "vpc_subnet_cidr" {
-  type = string
-  default = "10.0.0.0/24"
+  default = "default"
 }
 
 variable "vpc_connector_cidr" {
@@ -33,7 +34,12 @@ variable "db_name" {
   default = "db-1632905935259"
 }
 
-variable "credentials_path" {
+variable "run_image" {
   type = string
-  default = "../../../creds/private-token.json"
+  default = "gcr.io/private-260418/counter"
+}
+
+variable "run_name" {
+  type = string
+  default = "incrementer"
 }
