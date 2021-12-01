@@ -17,6 +17,16 @@ export default {
     logging: process.env.DB_LOGGING ? !!parseInt(process.env.DB_LOGGING, 10) : false,
     synchronize: process.env.DB_SYNC ? !!parseInt(process.env.DB_SYNC, 10) : true
   },
+  googlePubSub: {
+    projectId: process.env.GOOGLE_PUBSUB_PROJECT_ID,
+    credentials: process.env.GOOGLE_PUBSUB_CREDENTIALS,
+    topics: {
+      increment: process.env.GOOGLE_PUBSUB_TOPIC_INCREMENT || 'app_increment'
+    },
+    subscriptions: {
+      increment: process.env.GOOGLE_PUBSUB_SUBSCRIPTION_INCREMENT || 'app_increment_subscription'
+    }
+  },
   gql: {
     introspection: process.env.GQL_INTROSPECTION ? !!parseInt(process.env.GQL_INTROSPECTION, 10) : false,
     playground: process.env.GQL_PLAYGROUND ? !!parseInt(process.env.GQL_PLAYGROUND, 10) : false

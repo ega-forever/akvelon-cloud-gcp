@@ -1,13 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-services-counter
+  name: backend-services-counter-rest
 spec:
-  replicas: 2
   template:
     spec:
       containers:
-        - name: backend-services-counter
+        - name: backend-services-counter-rest
+          env:
+            - name: GQL_INTROSPECTION
+              value: "1"
+            - name: GQL_PLAYGROUND
+              value: "1"
+            - name: GOOGLE_PUBSUB_TOPIC_INCREMENT
+              value: "prod_increment"
+            - name: GOOGLE_PUBSUB_SUBSCRIPTION_INCREMENT
+              value: "prod_increment_subscription"
+        - name: cloudsql-proxy
+          command: ["/cloud_sql_proxy",
+                    "-instances=private-260418:europe-west1:prod-counter1-db=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/credentials.json"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-services-counter-worker
+spec:
+  template:
+    spec:
+      containers:
+        - name: backend-services-counter-worker
+          env:
+            - name: GOOGLE_PUBSUB_TOPIC_INCREMENT
+              value: "prod_increment"
+            - name: GOOGLE_PUBSUB_SUBSCRIPTION_INCREMENT
+              value: "prod_increment_subscription"
         - name: cloudsql-proxy
           command: ["/cloud_sql_proxy",
                     "-instances=private-260418:europe-west1:prod-counter1-db=tcp:5432",

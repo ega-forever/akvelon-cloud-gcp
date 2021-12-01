@@ -31,7 +31,7 @@ variable "vpc_connector_cidr" {
 
 variable "db_name" {
   type = string
-  default = "db-1632905935259"
+  default = "db-16329059352592"
 }
 
 variable "run_image" {
@@ -42,4 +42,9 @@ variable "run_image" {
 variable "run_name" {
   type = string
   default = "incrementer"
+}
+
+variable "pubsub_topic" {
+  type = string
+  default = "increment_app"
 }

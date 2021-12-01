@@ -8,6 +8,9 @@ resource "google_cloud_run_service" "app_service" {
 
       containers {
         image = var.docker_image_url
+        command = var.run_container_command
+        args = var.run_container_args
+
         env {
           name  = "DB_HOST"
           value = var.env_db_host
@@ -34,11 +37,19 @@ resource "google_cloud_run_service" "app_service" {
         }
         env {
           name  = "GQL_INTROSPECTION"
-          value = "1"
+          value = var.env_gql_introspection
         }
         env {
           name  = "GQL_PLAYGROUND"
-          value = "1"
+          value = var.env_gql_playground
+        }
+        env {
+          name  = "GOOGLE_PUBSUB_TOPIC_INCREMENT"
+          value = var.env_google_pubsub_topic_increment
+        }
+        env {
+          name  = "GOOGLE_PUBSUB_SUBSCRIPTION_INCREMENT"
+          value = var.env_google_pubsub_subscription_increment
         }
       }
     }
@@ -48,6 +59,7 @@ resource "google_cloud_run_service" "app_service" {
         "autoscaling.knative.dev/maxScale"        = "10"
         "run.googleapis.com/cloudsql-instances"   = var.cloudsql_connection_name
         "run.googleapis.com/vpc-access-connector" = var.vpc_connector
+        "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
       }
     }
   }

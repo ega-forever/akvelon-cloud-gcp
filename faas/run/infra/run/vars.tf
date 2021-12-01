@@ -45,3 +45,29 @@ variable "env_db_db" {
 variable "env_db_logging" {
   type = string
 }
+
+variable "env_gql_introspection" {
+  type = string
+}
+
+variable "env_gql_playground" {
+  type = string
+}
+
+variable "env_google_pubsub_topic_increment" {
+  type = string
+}
+
+variable "env_google_pubsub_subscription_increment" {
+  type = string
+  default = null
+}
+
+variable "run_container_command" {
+  type = list(string)
+  default = ["node"]
+}
+
+variable "run_container_args" {
+  type = list(string)
+}
